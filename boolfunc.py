@@ -30,12 +30,31 @@ def find_minterms(truth_table):
     return minterms
 
 def create_function(minterms, n_vars):
-    for k,m in enumerate(minterms):
-        pass
+    letters = [chr(i) for i in range(ord('a'), ord('a') + 1 + n_vars)]
+    variables = []
+    function = []
+    for m in minterms:
+        bin_minterm = to_bin(m, n_vars)
+        for v in range(n_vars):
+            if not bin_minterm[v]:
+                function.append("not")
+            function.append(letters[v])
+            function.append("and")        
+        function.pop(-1)
+        function.append("or")
+    function.pop(-1)
+    function = " ".join(function)
+    print(function)
+    def b_function(a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,i=0,j=0,k=0,l=0,m=0,n=0,o=0,p=0,q=0,r=0,s=0,t=0,u=0,v=0,w=0,x=0,y=0,z=0):
+        return int(eval(function))
+    return b_function
+        
 
 
 def main():
-    print(find_minterms(test((lambda x, y: x or y), 2)))
+    r_mint = find_minterms(test((lambda x, y: int(x != y)), 2))
+    print(r_mint)
+    print(find_minterms(test(create_function(r_mint, 2), 2)))
 
 if __name__ == "__main__":
     main()
